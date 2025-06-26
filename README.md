@@ -18,7 +18,7 @@ Fully compatible with popular page builders like Beaver Builder and Elementor, i
 
 Before using this child theme, ensure you have:
 
-- The **VTRKS parent theme** installed and activated.  
+- The **Beaver Builder Theme or Hello Elementor** installed and activated.  
 - WordPress (latest stable version) installed on your site.  
 - A page builder plugin if you intend to use Beaver Builder or Elementor.
 
