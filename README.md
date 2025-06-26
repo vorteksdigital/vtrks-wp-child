@@ -53,7 +53,26 @@ Since this is a starter child theme, development is straightforward:
 
 ## Commands
 
-This child theme does not include a build system but can be extended with your own tooling.
+This child theme uses npm scripts to compile SCSS and JavaScript assets.
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Compile assets once:
+
+```bash
+npm run build
+```
+
+3. Start the watch mode to auto-compile on file changes during development:
+
+```bash
+npm run build:watch
+```
+
 
 ---
 
