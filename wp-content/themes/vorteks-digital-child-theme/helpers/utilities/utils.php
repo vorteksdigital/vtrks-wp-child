@@ -83,9 +83,33 @@ function vrtks_enqueue_assets() {
 }
 add_action('wp_enqueue_scripts', 'vrtks_enqueue_assets');
 
-// Add SVG Support
+// Allow SVG for admins
 function vrtks_allow_svg_uploads($mimes) {
-    $mimes['svg'] = 'image/svg+xml';
+    if (current_user_can('manage_options')) {
+        $mimes['svg'] = 'image/svg+xml';
+    }
     return $mimes;
 }
 add_filter('upload_mimes', 'vrtks_allow_svg_uploads');
+
+// Load the SVG sanitizer library
+require_once __DIR__ . '/svg-sanitizer/autoload.php'; 
+
+// Sanitize SVG on upload
+function vrtks_sanitize_uploaded_svg($file) {
+    if ($file['type'] === 'image/svg+xml') {
+        $dirty_svg = file_get_contents($file['tmp_name']);
+
+        $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+        $clean_svg = $sanitizer->sanitize($dirty_svg);
+
+        if ($clean_svg) {
+            file_put_contents($file['tmp_name'], $clean_svg);
+        } else {
+            $file['error'] = 'Unable to sanitize SVG file.';
+        }
+    }
+    return $file;
+}
+add_filter('wp_handle_upload_prefilter', 'vrtks_sanitize_uploaded_svg');
+
